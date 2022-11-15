@@ -1,0 +1,9 @@
+.vscode/
+Library/
+Logs/
+obj/
+Packages/
+UserSettings/
+Assembly-CSharp.csproj
+Assembly-CSharp-Editor.csproj
+Unit3.sln
