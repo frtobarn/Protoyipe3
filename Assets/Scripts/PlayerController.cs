@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
+    private Animator playerAnim;
+
     private Rigidbody playerRigidBody;
 
     public float jumForce = 10;
@@ -16,6 +18,7 @@ public class PlayerController : MonoBehaviour
 
     void Start()
     {
+        playerAnim = GetComponent<Animator>();
         playerRigidBody = GetComponent<Rigidbody>();
         Physics.gravity *= gravityModifier;
     }
@@ -23,10 +26,11 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Space) && isOnGround)
+        if (Input.GetKeyDown(KeyCode.Space) && isOnGround && !gameOver)
         {
             playerRigidBody.AddForce(Vector3.up * jumForce, ForceMode.Impulse);
             isOnGround = false;
+            playerAnim.SetTrigger("Jump_trig");
         }
     }
 
@@ -38,8 +42,10 @@ public class PlayerController : MonoBehaviour
         }
         else if (collision.gameObject.CompareTag("Obstacle"))
         {
-            gameOver = true;
             Debug.Log("Game over");
+            gameOver = true;
+            playerAnim.SetBool("Death_b", true);
+            playerAnim.SetInteger("DeathType_int", 1);
         }
     }
 }
